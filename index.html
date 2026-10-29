@@ -585,7 +585,9 @@ async function copyText(text){
   } catch (e) { return false; }
 }
 
-function pageUrl(){ return location.href.split("#")[0]; }
+// Fixed public link used in every share / copy / challenge message
+const CHALLENGE_URL = "https://jsydesign.github.io/KOKO1/";
+function pageUrl(){ return CHALLENGE_URL; }
 
 function shareMessage(){
   const r = getResult(finalScore);
@@ -611,7 +613,7 @@ async function shareResult(){
 
 async function challengeFriend(){
   if (finalScore === null) return;
-  const msg = "I survived the Korean high school test. Your turn 💀 Beat my score: " + finalScore + "%! " + pageUrl();
+  const msg = "I survived the Korean high school test. Your turn 💀 Beat my score: " + finalScore + "%! " + CHALLENGE_URL;
   const ok = await copyText(msg);
   ok ? toast("Challenge copied! Send it to a friend 💀") : toast("Couldn't copy. Please copy the text manually.", true);
 }
