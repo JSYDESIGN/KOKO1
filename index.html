@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How Korean High School Are You? | KOKO</title>
+<meta name="description" content="Could you survive a day in a Korean high school? Take the 8-question test by KOKO, a little corner of korea.">
+<meta property="og:title" content="How Korean High School Are You?">
+<meta property="og:description" content="8 questions. 1 questionable future. Zero academic qualifications required.">
+<meta property="og:type" content="website">
+<!-- Pixel font (optional). If it fails to load, the monospace fallback keeps the site fully usable. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+/* ============ THEME ============ */
+:root{
+  --sky:#bfe6ff; --sky-deep:#8ccaf2; --pink:#ffc2dd; --pink-deep:#ff8fbf;
+  --cream:#fff6e0; --white:#ffffff; --navy:#2b2457; --purple:#5b4b9a;
+  --yellow:#ffe27a; --mint:#b8f0d6;
+  --pixel:"Press Start 2P","Courier New",ui-monospace,monospace;
+  --body:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--body); color:var(--navy); line-height:1.5;
+  background-color:var(--sky);
+  background-image:
+    linear-gradient(45deg,rgba(255,255,255,.35) 25%,transparent 25%,transparent 75%,rgba(255,255,255,.35) 75%),
+    linear-gradient(45deg,rgba(255,255,255,.35) 25%,transparent 25%,transparent 75%,rgba(255,255,255,.35) 75%);
+  background-size:32px 32px; background-position:0 0,16px 16px;
+  min-height:100vh; min-height:100dvh; overflow-x:hidden;
+  display:flex; flex-direction:column;
+}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+:focus-visible{outline:4px solid var(--purple);outline-offset:3px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ============ HEADER / FOOTER ============ */
+header.top{padding:14px 16px 0;max-width:720px;width:100%;margin:0 auto}
+.logo{display:inline-block;text-decoration:none;color:var(--navy)}
+.logo b{
+  font-family:var(--pixel);font-size:20px;letter-spacing:2px;background:var(--pink);
+  border:3px solid var(--navy);box-shadow:3px 3px 0 var(--navy);padding:6px 8px 4px;display:inline-block;
+}
+.logo small{display:block;font-size:11px;margin-top:6px;font-weight:600;letter-spacing:.3px}
+footer{margin-top:auto;padding:22px 16px 26px;text-align:center;font-size:12px;font-weight:600}
+
+main{width:100%;max-width:720px;margin:0 auto;padding:14px 14px 10px;flex:1}
+.screen{display:none}
+.screen.active{display:block;animation:pop .35s ease both}
+@keyframes pop{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ============ PIXEL CARD ============ */
+.card{
+  background:var(--cream);border:4px solid var(--navy);box-shadow:6px 6px 0 var(--navy);
+  padding:18px 14px;position:relative;
+}
+.pixel-btn{
+  font-family:var(--pixel);font-size:13px;line-height:1.4;text-align:center;
+  background:var(--pink);border:4px solid var(--navy);box-shadow:5px 5px 0 var(--navy);
+  padding:14px 16px;min-height:52px;transition:transform .08s,box-shadow .08s,background .15s;
+}
+.pixel-btn:hover{background:var(--yellow)}
+.pixel-btn:active{transform:translate(4px,4px);box-shadow:1px 1px 0 var(--navy)}
+.pixel-btn.alt{background:var(--white)}
+.pixel-btn.alt:hover{background:var(--mint)}
+
+/* ============ LANDING ============ */
+.hero{text-align:center;padding-top:22px}
+.hero h1{
+  font-family:var(--pixel);font-size:clamp(17px,6vw,30px);line-height:1.5;margin:10px 0 12px;
+  text-shadow:3px 3px 0 var(--pink);word-break:break-word;
+}
+.hero .support{font-size:clamp(15px,4.2vw,19px);font-weight:700;margin-bottom:16px}
+.scene{width:100%;max-width:340px;margin:0 auto 16px;border:4px solid var(--navy);box-shadow:5px 5px 0 var(--navy);background:var(--cream);image-rendering:pixelated}
+.scene svg{display:block;width:100%;height:auto;shape-rendering:crispEdges}
+.eye{transform-box:fill-box;transform-origin:center;animation:blink 4s infinite}
+@keyframes blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+.hand{animation:tick 6s steps(6) infinite}
+@keyframes tick{to{transform:rotate(360deg)}}
+.cta{margin:6px 0 10px;width:100%;max-width:300px;font-size:15px;padding:18px 12px}
+.tiny{font-size:13px;font-weight:600}
+.disclaimer{margin-top:16px;font-size:12px;font-weight:700;background:var(--white);border:3px dashed var(--navy);padding:8px 10px;display:inline-block}
+.deco{position:absolute;pointer-events:none;font-size:20px;animation:float 3.5s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.hero-wrap{position:relative}
+
+/* ============ QUIZ ============ */
+.q-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.q-count{font-family:var(--pixel);font-size:11px}
+.bell{display:inline-block;font-size:22px;transform-origin:50% 0}
+.bell.ring{animation:ring .6s ease}
+@keyframes ring{0%,100%{transform:rotate(0)}20%{transform:rotate(25deg)}40%{transform:rotate(-20deg)}60%{transform:rotate(14deg)}80%{transform:rotate(-8deg)}}
+.bar{height:18px;background:var(--white);border:3px solid var(--navy);margin-bottom:14px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:repeating-linear-gradient(90deg,var(--pink-deep) 0 10px,var(--pink) 10px 14px);transition:width .35s ease}
+.q-body{transition:opacity .2s,transform .2s}
+.q-body.out{opacity:0;transform:translateX(-14px)}
+.q-icon{font-size:42px;text-align:center;line-height:1;margin-bottom:8px;filter:drop-shadow(3px 3px 0 rgba(43,36,87,.25))}
+.q-title{font-family:var(--pixel);font-size:clamp(12px,3.8vw,16px);line-height:1.7;margin-bottom:14px;text-align:center;outline:none}
+.answers{display:grid;gap:10px;list-style:none}
+.ans{
+  width:100%;text-align:left;display:flex;gap:10px;align-items:flex-start;min-height:60px;
+  background:var(--white);border:3px solid var(--navy);box-shadow:4px 4px 0 var(--navy);
+  padding:12px;font-size:15px;font-weight:600;transition:transform .1s,background .15s,box-shadow .1s;
+}
+.ans .letter{
+  flex:none;font-family:var(--pixel);font-size:12px;background:var(--sky);border:3px solid var(--navy);
+  width:34px;height:34px;display:flex;align-items:center;justify-content:center;
+}
+.ans span.t{padding-top:5px;overflow-wrap:anywhere}
+.ans:hover{background:var(--yellow);transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--navy)}
+.ans.selected{background:var(--pink);transform:translate(3px,3px);box-shadow:1px 1px 0 var(--navy)}
+.ans.selected .letter{background:var(--navy);color:var(--white)}
+.ans:disabled{cursor:default}
+.back{margin-top:16px;font-size:11px;padding:10px 14px;min-height:44px}
+
+/* ============ LOADING ============ */
+.loading{text-align:center;padding:50px 10px}
+.loading .big{font-size:54px;animation:float 1s ease-in-out infinite}
+.loading p{font-family:var(--pixel);font-size:12px;line-height:1.8;margin-top:16px}
+.dots::after{content:"";animation:dots 1s steps(4) infinite}
+@keyframes dots{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}}
+
+/* ============ RESULT ============ */
+.res-card{text-align:center;padding-top:20px;background:var(--cream)}
+.res-kicker{font-family:var(--pixel);font-size:10px;margin-bottom:8px}
+.res-sprite{
+  width:120px;height:120px;margin:6px auto 10px;background:var(--sky);border:4px solid var(--navy);
+  box-shadow:5px 5px 0 var(--navy);display:flex;align-items:center;justify-content:center;font-size:62px;position:relative;
+}
+.res-sprite::before,.res-sprite::after{content:"✦";position:absolute;font-size:18px;color:var(--pink-deep);animation:float 2.5s ease-in-out infinite}
+.res-sprite::before{top:4px;left:6px}.res-sprite::after{bottom:4px;right:6px;animation-delay:1s;color:var(--purple)}
+.score{font-family:var(--pixel);font-size:clamp(46px,17vw,76px);line-height:1.1;color:var(--navy);text-shadow:4px 4px 0 var(--pink)}
+.score.pop{animation:scorepop .6s ease}
+@keyframes scorepop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+.res-title{font-family:var(--pixel);font-size:clamp(13px,4.4vw,19px);line-height:1.6;margin:10px 0}
+.res-head{font-size:clamp(16px,4.6vw,20px);font-weight:800;margin-bottom:8px}
+.res-desc{font-size:15px;margin-bottom:12px}
+.res-roast{background:var(--white);border:3px dashed var(--navy);padding:10px;font-size:14px;font-weight:700;margin-bottom:12px}
+.verdict{display:inline-block;font-family:var(--pixel);font-size:10px;line-height:1.7;background:var(--yellow);border:3px solid var(--navy);padding:8px 10px}
+.res-brand{margin-top:12px;font-family:var(--pixel);font-size:10px}
+.share-box{margin-top:18px}
+.share-box h2{font-family:var(--pixel);font-size:12px;text-align:center;margin-bottom:12px}
+.btns{display:grid;gap:12px}
+@media (min-width:520px){.btns{grid-template-columns:1fr 1fr}.btns .full{grid-column:1/-1}}
+.btns .pixel-btn{font-size:11px}
+
+/* ============ TOAST + CONFETTI ============ */
+.toast{
+  position:fixed;left:50%;bottom:20px;transform:translate(-50%,30px);opacity:0;pointer-events:none;
+  background:var(--navy);color:var(--white);padding:12px 16px;border:3px solid var(--white);
+  font-weight:700;font-size:14px;max-width:calc(100vw - 28px);text-align:center;transition:.25s;z-index:50;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.err{background:#a02040}
+.confetti{position:fixed;top:-12px;width:10px;height:10px;z-index:40;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:.9}}
+
+/* ============ REDUCED MOTION ============ */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+@media (max-width:360px){
+  .ans{font-size:14px;padding:10px}
+  .logo b{font-size:17px}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="logo" href="./" aria-label="KOKO home">
+    <b>KOKO</b>
+    <small>a little corner of korea</small>
+  </a>
+</header>
+
+<main id="app">
+
+  <!-- ========== SCREEN 1: LANDING ========== -->
+  <section id="screen-landing" class="screen active hero" aria-labelledby="main-title">
+    <div class="hero-wrap">
+      <span class="deco" style="top:6px;left:2%" aria-hidden="true">⭐</span>
+      <span class="deco" style="top:40px;right:3%;animation-delay:.8s" aria-hidden="true">✨</span>
+      <span class="deco" style="top:210px;left:4%;animation-delay:1.4s" aria-hidden="true">🥛</span>
+      <span class="deco" style="top:230px;right:4%;animation-delay:2s" aria-hidden="true">🎒</span>
+
+      <h1 id="main-title">HOW KOREAN HIGH SCHOOL ARE YOU?</h1>
+
+      <!-- Pixel classroom scene (inline SVG, no external images) -->
+      <div class="scene" role="img" aria-label="Pixel art of a student sitting at a desk in a classroom with a window and a clock">
+        <svg viewBox="0 0 64 48" xmlns="http://www.w3.org/2000/svg">
+          <rect width="64" height="48" fill="#fff6e0"/>
+          <rect y="38" width="64" height="10" fill="#f2d3a0"/>
+          <!-- window -->
+          <rect x="4" y="4" width="22" height="18" fill="#2b2457"/>
+          <rect x="6" y="6" width="18" height="14" fill="#8ccaf2"/>
+          <rect x="14" y="6" width="2" height="14" fill="#2b2457"/>
+          <rect x="6" y="12" width="18" height="2" fill="#2b2457"/>
+          <rect x="18" y="8" width="4" height="4" fill="#ffe27a"/>
+          <rect x="8" y="16" width="6" height="2" fill="#fff"/>
+          <!-- clock -->
+          <rect x="42" y="4" width="14" height="14" fill="#2b2457"/>
+          <rect x="44" y="6" width="10" height="10" fill="#fff"/>
+          <rect x="48" y="8" width="2" height="4" fill="#2b2457"/>
+          <rect class="hand" x="48.5" y="11" width="1" height="4" fill="#ff8fbf" style="transform-origin:49px 11px"/>
+          <!-- chalkboard strip -->
+          <rect x="30" y="8" width="8" height="6" fill="#5b4b9a"/>
+          <rect x="31" y="9" width="6" height="1" fill="#fff"/>
+          <rect x="31" y="11" width="4" height="1" fill="#fff"/>
+          <!-- student -->
+          <rect x="26" y="22" width="12" height="2" fill="#2b2457"/>
+          <rect x="25" y="23" width="14" height="5" fill="#2b2457"/>
+          <rect x="27" y="24" width="10" height="6" fill="#ffe0c2"/>
+          <rect class="eye" x="29" y="26" width="2" height="2" fill="#2b2457"/>
+          <rect class="eye" x="33" y="26" width="2" height="2" fill="#2b2457"/>
+          <rect x="29" y="29" width="1" height="1" fill="#ff8fbf"/>
+          <rect x="34" y="29" width="1" height="1" fill="#ff8fbf"/>
+          <rect x="26" y="31" width="12" height="7" fill="#fff"/>
+          <rect x="31" y="31" width="2" height="5" fill="#ff8fbf"/>
+          <rect x="24" y="31" width="2" height="6" fill="#fff"/>
+          <rect x="38" y="31" width="2" height="6" fill="#fff"/>
+          <!-- desk -->
+          <rect x="14" y="36" width="36" height="3" fill="#c98f5a"/>
+          <rect x="14" y="39" width="36" height="1" fill="#8a5a30"/>
+          <rect x="16" y="40" width="2" height="7" fill="#8a5a30"/>
+          <rect x="46" y="40" width="2" height="7" fill="#8a5a30"/>
+          <!-- desk items: notebook, milk -->
+          <rect x="17" y="33" width="8" height="3" fill="#ffc2dd"/>
+          <rect x="17" y="33" width="1" height="3" fill="#2b2457"/>
+          <rect x="41" y="31" width="5" height="5" fill="#fff"/>
+          <rect x="41" y="31" width="5" height="2" fill="#8ccaf2"/>
+          <rect x="41" y="29" width="3" height="2" fill="#8ccaf2"/>
+          <!-- school bag -->
+          <rect x="52" y="30" width="8" height="10" fill="#5b4b9a"/>
+          <rect x="53" y="34" width="6" height="3" fill="#8f7fd0"/>
+          <rect x="54" y="28" width="4" height="2" fill="#2b2457"/>
+        </svg>
+      </div>
+
+      <p class="support">Could you survive a day in a Korean high school? 🇰🇷</p>
+      <button id="btn-start" class="pixel-btn cta" type="button">START TEST</button>
+      <p class="tiny">Takes less than 2 minutes</p>
+      <p class="disclaimer">8 questions. 1 questionable future. Zero academic qualifications required.</p>
+    </div>
+  </section>
+
+  <!-- ========== SCREEN 2: QUIZ ========== -->
+  <section id="screen-quiz" class="screen" aria-label="Quiz">
+    <div class="card">
+      <div class="q-top">
+        <span class="q-count" id="q-count" aria-live="polite">QUESTION 1 / 8</span>
+        <span class="bell" id="bell" aria-hidden="true">🔔</span>
+      </div>
+      <div class="bar" id="bar" role="progressbar" aria-valuemin="0" aria-valuemax="8" aria-valuenow="1" aria-label="Quiz progress"><i id="bar-fill"></i></div>
+      <div class="q-body" id="q-body">
+        <div class="q-icon" id="q-icon" aria-hidden="true"></div>
+        <h2 class="q-title" id="q-title" tabindex="-1"></h2>
+        <ul class="answers" id="answers"></ul>
+      </div>
+      <button id="btn-back" class="pixel-btn alt back" type="button" hidden>◀ BACK</button>
+    </div>
+  </section>
+
+  <!-- ========== SCREEN 3: LOADING ========== -->
+  <section id="screen-loading" class="screen" aria-live="polite">
+    <div class="card loading">
+      <div class="big" aria-hidden="true">📚</div>
+      <p><span id="loading-text">calculating your academic survival</span><span class="dots" aria-hidden="true"></span></p>
+    </div>
+  </section>
+
+  <!-- ========== SCREEN 4: RESULT ========== -->
+  <section id="screen-result" class="screen" aria-label="Your result">
+    <div class="card res-card" id="res-card">
+      <div class="res-kicker">YOUR KOREAN HIGH SCHOOL ENERGY</div>
+      <div class="res-sprite" id="res-sprite" aria-hidden="true"></div>
+      <div class="score" id="res-score">0%</div>
+      <h2 class="res-title" id="res-title"></h2>
+      <p class="res-head" id="res-head"></p>
+      <p class="res-desc" id="res-desc"></p>
+      <p class="res-roast" id="res-roast"></p>
+      <div class="verdict" id="res-verdict"></div>
+      <div class="res-brand">KOKO · a little corner of korea</div>
+    </div>
+
+    <div class="share-box">
+      <h2>SHOW YOUR FRIENDS 👀</h2>
+      <div class="btns">
+        <button id="btn-share" class="pixel-btn full" type="button">SHARE MY RESULT</button>
+        <button id="btn-challenge" class="pixel-btn alt" type="button">CHALLENGE A FRIEND</button>
+        <button id="btn-copy" class="pixel-btn alt" type="button">COPY RESULT</button>
+        <button id="btn-download" class="pixel-btn alt" type="button">DOWNLOAD RESULT CARD</button>
+        <button id="btn-again" class="pixel-btn" type="button">TAKE THE TEST AGAIN</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>made with questionable academic energy by KOKO</footer>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+/* =====================================================================
+   DATA — edit questions, scores, and results here.
+   Each answer has a `pts` value (0-100). Final score = average of the
+   8 answers, rounded. Same answers => same score, always.
+   ===================================================================== */
+const QUESTIONS = [
+  { icon:"⏰", q:"It's 7 AM. Your alarm rings. What do you do?", a:[
+    { t:"Get up immediately. I'm a responsible human.", pts:15 },
+    { t:"Five more minutes. (Lies.)", pts:40 },
+    { t:"Wake up physically, remain asleep spiritually.", pts:70 },
+    { t:"Start negotiating with the universe.", pts:90 } ]},
+  { icon:"🏪", q:"Your friend says, \"Let's go to the convenience store!\"", a:[
+    { t:"I'M ALREADY AT THE DOOR.", pts:95 },
+    { t:"What are we buying?", pts:20 },
+    { t:"I have ₩1,200 and a dream.", pts:55 },
+    { t:"Finally, something worth leaving class for.", pts:80 } ]},
+  { icon:"📝", q:"You have a test tomorrow and haven't studied.", a:[
+    { t:"I've been preparing all week.", pts:15 },
+    { t:"I'll figure something out.", pts:50 },
+    { t:"Academic comeback starts tonight. (It won't.)", pts:75 },
+    { t:"Maybe if I stare at the textbook long enough, knowledge will enter my brain.", pts:95 } ]},
+  { icon:"🍱", q:"The school lunch menu is your favorite food.", a:[
+    { t:"This is the best day of my life.", pts:85 },
+    { t:"Finally, a reason to attend school.", pts:55 },
+    { t:"I'm taking a picture before eating.", pts:25 },
+    { t:"I'm suddenly the most punctual person in school.", pts:95 } ]},
+  { icon:"📄", q:"The teacher says, \"Take out a blank sheet of paper.\"", a:[
+    { t:"Calm. I know what this means.", pts:20 },
+    { t:"Wait. Is this graded?", pts:40 },
+    { t:"My soul has left the building.", pts:80 },
+    { t:"I'm suddenly interested in becoming a full-time farmer.", pts:95 } ]},
+  { icon:"🔔", q:"You have a 10-minute break between classes.", a:[
+    { t:"Use it to prepare for the next class.", pts:15 },
+    { t:"Talk to my best friend about literally everything.", pts:45 },
+    { t:"Snack, bathroom, water, gossip. Speedrun.", pts:75 },
+    { t:"Close my eyes for two seconds and wake up in another dimension.", pts:90 } ]},
+  { icon:"🌇", q:"School is finally over. What's your plan?", a:[
+    { t:"Go home and finish my homework.", pts:15 },
+    { t:"Convenience store with my friends. Obviously.", pts:50 },
+    { t:"Walk home slowly while listening to music like I'm in a coming-of-age movie.", pts:30 },
+    { t:"Say \"I'm going straight home\" and somehow disappear for three hours.", pts:95 } ]},
+  { icon:"✨", q:"Choose your Korean school-life superpower.", a:[
+    { t:"Remembering every deadline.", pts:20 },
+    { t:"Knowing the best convenience store snacks.", pts:55 },
+    { t:"Making any boring moment entertaining with my friends.", pts:70 },
+    { t:"Looking busy whenever a teacher walks by.", pts:85 } ]}
+];
+
+const RESULTS = [
+  { id:"A", max:25, emoji:"🧳", title:"THE EXCHANGE STUDENT",
+    head:"You would not survive Monday.",
+    desc:"You came for the K-drama experience. Nobody told you about the 7 AM alarm.",
+    verdict:"Survival probability: questionable.",
+    roasts:[ "Your homework is done. Your confidence is not.",
+             "You'd read the whole schedule and still end up in the wrong classroom.",
+             "Too organized for chaos, too lost for class. Respect." ] },
+  { id:"B", max:60, emoji:"🥤", title:"THE CONVENIENCE STORE REGULAR",
+    head:"Your grades are a mystery. Your snack collection is not.",
+    desc:"You know exactly where to go when the bell rings.",
+    verdict:"Survival probability: snack-dependent.",
+    roasts:[ "The cashier knows your face. Your teachers are still guessing.",
+             "You're not late. You're just fashionably snacking.",
+             "Honestly? Good taste. Questionable priorities." ] },
+  { id:"C", max:85, emoji:"📚", title:"THE CLASSROOM SURVIVOR",
+    head:"You have mastered the ancient art of looking busy.",
+    desc:"You can survive a surprise quiz, a group project, and a Monday morning.",
+    verdict:"Survival probability: surprisingly high.",
+    roasts:[ "You've never actually read the textbook, but you look amazing holding it.",
+             "Teachers walk by. You suddenly become a scholar.",
+             "Chaotic but functional. That's a skill." ] },
+  { id:"D", max:100, emoji:"👑", title:"THE KOREAN HIGH SCHOOL FINAL BOSS",
+    head:"You don't attend school. School attends you.",
+    desc:"The bell rings for you. The convenience store knows your order. Even Monday fears you.",
+    verdict:"Survival probability: suspiciously legendary.",
+    roasts:[ "Please check your pulse. Your soul might still be in third period.",
+             "Legend says you can nap, snack, and pass at the same time.",
+             "Seriously, who raised you? A school bell?" ] }
+];
+
+/* =====================================================================
+   STATE
+   ===================================================================== */
+const TOTAL = QUESTIONS.length;
+let current = 0;                 // current question index
+let answers = new Array(TOTAL).fill(null); // selected answer index per question
+let locked = false;              // prevents double selection during transition
+let finalScore = null;           // result score once computed
+let timers = [];                 // pending timeouts (cleared on restart)
+
+const $ = (id) => document.getElementById(id);
+const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const LETTERS = ["A","B","C","D"];
+
+function later(fn, ms){ const id = setTimeout(fn, ms); timers.push(id); return id; }
+function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
+
+/* =====================================================================
+   SCREEN SWITCHING
+   ===================================================================== */
+function showScreen(name){
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  $("screen-" + name).classList.add("active");
+  window.scrollTo({ top:0, behavior: reduceMotion ? "auto" : "smooth" });
+}
+
+/* =====================================================================
+   QUIZ RENDERING
+   ===================================================================== */
+function renderQuestion(){
+  const q = QUESTIONS[current];
+  $("q-count").textContent = "QUESTION " + (current + 1) + " / " + TOTAL;
+  $("bar-fill").style.width = ((current + 1) / TOTAL * 100) + "%";
+  $("bar").setAttribute("aria-valuenow", String(current + 1));
+  $("q-icon").textContent = q.icon;
+  $("q-title").textContent = q.q;
+  $("btn-back").hidden = current === 0;
+
+  const list = $("answers");
+  list.innerHTML = "";
+  q.a.forEach((ans, i) => {
+    const li = document.createElement("li");
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "ans" + (answers[current] === i ? " selected" : "");
+    b.setAttribute("aria-pressed", answers[current] === i ? "true" : "false");
+    b.innerHTML = '<span class="letter"></span><span class="t"></span>';
+    b.querySelector(".letter").textContent = LETTERS[i];
+    b.querySelector(".t").textContent = ans.t;
+    b.addEventListener("click", () => selectAnswer(i));
+    li.appendChild(b);
+    list.appendChild(li);
+  });
+  ringBell();
+}
+
+function ringBell(){
+  const bell = $("bell");
+  bell.classList.remove("ring");
+  void bell.offsetWidth; // restart animation
+  bell.classList.add("ring");
+}
+
+function selectAnswer(i){
+  if (locked) return;           // no double selection / skipping
+  locked = true;
+  answers[current] = i;
+  const btns = $("answers").querySelectorAll(".ans");
+  btns.forEach((b, idx) => {
+    b.classList.toggle("selected", idx === i);
+    b.setAttribute("aria-pressed", idx === i ? "true" : "false");
+    b.disabled = true;
+  });
+  later(() => {
+    $("q-body").classList.add("out");
+    later(() => {
+      if (current < TOTAL - 1){
+        current++;
+        renderQuestion();
+        $("q-body").classList.remove("out");
+        $("q-title").focus({ preventScroll:true });
+        locked = false;
+      } else {
+        $("q-body").classList.remove("out");
+        finishQuiz();
+      }
+    }, reduceMotion ? 0 : 200);
+  }, reduceMotion ? 0 : 320);
+}
+
+function goBack(){
+  if (locked || current === 0) return;
+  current--;
+  renderQuestion();
+  $("q-title").focus({ preventScroll:true });
+}
+
+/* =====================================================================
+   SCORING — deterministic average of answer points, clamped to 0-100
+   ===================================================================== */
+function computeScore(ans){
+  let sum = 0;
+  for (let i = 0; i < TOTAL; i++){
+    if (ans[i] === null) return null; // never score an unfinished quiz
+    sum += QUESTIONS[i].a[ans[i]].pts;
+  }
+  return Math.max(0, Math.min(100, Math.round(sum / TOTAL)));
+}
+// One function decides the category so score and result always agree.
+function getResult(score){
+  for (const r of RESULTS){ if (score <= r.max) return r; }
+  return RESULTS[RESULTS.length - 1];
+}
+
+/* =====================================================================
+   FINISH + RESULT
+   ===================================================================== */
+const LOADING_LINES = [
+  "calculating your academic survival",
+  "asking the convenience store",
+  "checking your look-busy skills"
+];
+
+function finishQuiz(){
+  const score = computeScore(answers);
+  if (score === null){ locked = false; return; } // safety: unanswered question
+  finalScore = score;
+  showScreen("loading");
+  let n = 0;
+  $("loading-text").textContent = LOADING_LINES[0];
+  const iv = setInterval(() => { n = (n + 1) % LOADING_LINES.length; $("loading-text").textContent = LOADING_LINES[n]; }, 600);
+  later(() => { clearInterval(iv); showResult(); }, reduceMotion ? 300 : 1600);
+  timers.push(iv);
+}
+
+function showResult(){
+  const score = finalScore;
+  const r = getResult(score);
+  $("res-sprite").textContent = r.emoji;
+  const sc = $("res-score");
+  sc.textContent = score + "%";
+  sc.classList.remove("pop"); void sc.offsetWidth; sc.classList.add("pop");
+  $("res-title").textContent = r.title;
+  $("res-head").textContent = r.head;
+  $("res-desc").textContent = r.desc;
+  $("res-roast").textContent = r.roasts[score % r.roasts.length];
+  $("res-verdict").textContent = r.verdict;
+  showScreen("result");
+  burstConfetti();
+  locked = false;
+}
+
+/* Tiny pixel confetti — 36 squares, auto-removed */
+function burstConfetti(){
+  if (reduceMotion) return;
+  const colors = ["#ff8fbf","#ffe27a","#8ccaf2","#b8f0d6","#5b4b9a"];
+  for (let i = 0; i < 36; i++){
+    const c = document.createElement("div");
+    c.className = "confetti";
+    c.style.left = Math.random() * 100 + "vw";
+    c.style.background = colors[i % colors.length];
+    c.style.animationDuration = (1.2 + Math.random() * 1.2) + "s";
+    c.style.animationDelay = (Math.random() * 0.3) + "s";
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 3000);
+  }
+}
+
+/* =====================================================================
+   SHARING / CLIPBOARD
+   ===================================================================== */
+let toastTimer;
+function toast(msg, isError){
+  const t = $("toast");
+  t.textContent = msg;
+  t.classList.toggle("err", !!isError);
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove("show"), 2600);
+}
+
+// Returns a Promise<boolean>; true only if the copy really worked.
+async function copyText(text){
+  try {
+    if (navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch (e) { /* fall through to legacy method */ }
+  try {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.position = "fixed"; ta.style.opacity = "0"; ta.style.top = "0";
+    document.body.appendChild(ta);
+    ta.select(); ta.setSelectionRange(0, text.length);
+    const ok = document.execCommand("copy");
+    ta.remove();
+    return !!ok;
+  } catch (e) { return false; }
+}
+
+function pageUrl(){ return location.href.split("#")[0]; }
+
+function shareMessage(){
+  const r = getResult(finalScore);
+  return "I got " + finalScore + "% Korean High School Energy 🇰🇷💀 Apparently, I'm " + r.title + ". How Korean High School Are YOU?";
+}
+
+async function shareResult(){
+  if (finalScore === null) return;
+  const text = shareMessage();
+  const url = pageUrl();
+  if (navigator.share){
+    try {
+      await navigator.share({ title:"How Korean High School Are You? | KOKO", text, url });
+      return;
+    } catch (e) {
+      if (e && e.name === "AbortError") return; // user closed the sheet
+      /* otherwise fall back to copying */
+    }
+  }
+  const ok = await copyText(text + " " + url);
+  ok ? toast("Copied! Paste it anywhere 💌") : toast("Couldn't copy. Please copy the text manually.", true);
+}
+
+async function challengeFriend(){
+  if (finalScore === null) return;
+  const msg = "I survived the Korean high school test. Your turn 💀 Beat my score: " + finalScore + "%! " + pageUrl();
+  const ok = await copyText(msg);
+  ok ? toast("Challenge copied! Send it to a friend 💀") : toast("Couldn't copy. Please copy the text manually.", true);
+}
+
+async function copyResult(){
+  if (finalScore === null) return;
+  const r = getResult(finalScore);
+  const text = [
+    "How Korean High School Are You? (KOKO)",
+    finalScore + "% - " + r.title,
+    r.head,
+    r.verdict,
+    pageUrl()
+  ].join("\n");
+  const ok = await copyText(text);
+  ok ? toast("Result copied! ✨") : toast("Couldn't copy. Please copy the text manually.", true);
+}
+
+/* =====================================================================
+   OPTIONAL: PNG RESULT CARD (canvas). Isolated in try/catch so it can
+   never break the core quiz.
+   ===================================================================== */
+function wrapLines(ctx, text, maxW){
+  const words = text.split(" "); const lines = []; let line = "";
+  words.forEach(w => {
+    const test = line ? line + " " + w : w;
+    if (ctx.measureText(test).width > maxW && line){ lines.push(line); line = w; } else line = test;
+  });
+  if (line) lines.push(line);
+  return lines;
+}
+
+async function downloadCard(){
+  if (finalScore === null) return;
+  try {
+    if (document.fonts && document.fonts.load){
+      try { await document.fonts.load('20px "Press Start 2P"'); } catch(e){}
+    }
+    const r = getResult(finalScore);
+    const W = 1080, H = 1350;
+    const c = document.createElement("canvas"); c.width = W; c.height = H;
+    const ctx = c.getContext("2d");
+    if (!ctx) throw new Error("no canvas");
+    const px = '"Press Start 2P","Courier New",monospace';
+    const sans = 'system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif';
+
+    ctx.fillStyle = "#bfe6ff"; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle = "rgba(255,255,255,.35)";
+    for (let y = 0; y < H; y += 64) for (let x = (y/64%2)*64; x < W; x += 128) ctx.fillRect(x,y,64,64);
+
+    // card
+    ctx.fillStyle = "#2b2457"; ctx.fillRect(86,126,924,1130);
+    ctx.fillStyle = "#fff6e0"; ctx.fillRect(70,110,924,1130);
+    ctx.strokeStyle = "#2b2457"; ctx.lineWidth = 8; ctx.strokeRect(70,110,924,1130);
+
+    ctx.textAlign = "center"; ctx.fillStyle = "#2b2457";
+    // brand
+    ctx.fillStyle = "#ffc2dd"; ctx.fillRect(412,150,240,76);
+    ctx.strokeRect(412,150,240,76);
+    ctx.fillStyle = "#2b2457"; ctx.font = "40px " + px; ctx.fillText("KOKO", 532, 205);
+    ctx.font = "700 24px " + sans; ctx.fillText("a little corner of korea", 532, 262);
+
+    ctx.font = "22px " + px; ctx.fillText("MY KOREAN HIGH SCHOOL ENERGY", 532, 330);
+
+    // emoji box
+    ctx.fillStyle = "#bfe6ff"; ctx.fillRect(432,370,200,200); ctx.strokeRect(432,370,200,200);
+    ctx.font = "110px " + sans; ctx.fillStyle = "#2b2457"; ctx.fillText(r.emoji, 532, 510);
+
+    // score
+    ctx.font = "130px " + px;
+    ctx.fillStyle = "#ffc2dd"; ctx.fillText(finalScore + "%", 540, 746);
+    ctx.fillStyle = "#2b2457"; ctx.fillText(finalScore + "%", 532, 738);
+
+    // title
+    ctx.font = "34px " + px;
+    const tl = wrapLines(ctx, r.title, 800);
+    tl.forEach((l,i) => ctx.fillText(l, 532, 830 + i*56));
+    let y = 830 + tl.length*56 + 20;
+
+    ctx.font = "800 36px " + sans;
+    wrapLines(ctx, r.head, 800).forEach((l,i) => { ctx.fillText(l, 532, y); y += 46; });
+    y += 10;
+    ctx.font = "500 30px " + sans;
+    wrapLines(ctx, r.desc, 800).forEach(l => { ctx.fillText(l, 532, y); y += 40; });
+
+    ctx.fillStyle = "#ffe27a"; ctx.fillRect(160,1130,744,70); ctx.strokeRect(160,1130,744,70);
+    ctx.fillStyle = "#2b2457"; ctx.font = "20px " + px; ctx.fillText(r.verdict.toUpperCase(), 532, 1175);
+
+    ctx.font = "700 28px " + sans; ctx.fillText("How Korean High School Are YOU?", 532, 1296);
+
+    const blob = await new Promise(res => c.toBlob(res, "image/png"));
+    if (!blob) throw new Error("no blob");
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "koko-korean-high-school-result.png";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    toast("Result card downloaded! 📸");
+  } catch (e) {
+    toast("Couldn't make the card. Try a screenshot instead!", true);
+  }
+}
+
+/* =====================================================================
+   RESET / EVENTS
+   ===================================================================== */
+function resetQuiz(){
+  clearTimers();
+  current = 0;
+  answers = new Array(TOTAL).fill(null);
+  locked = false;
+  finalScore = null;
+  $("q-body").classList.remove("out");
+  showScreen("landing");
+}
+
+function startQuiz(){
+  clearTimers();
+  current = 0;
+  answers = new Array(TOTAL).fill(null);
+  locked = false;
+  finalScore = null;
+  renderQuestion();
+  showScreen("quiz");
+  $("q-title").focus({ preventScroll:true });
+}
+
+$("btn-start").addEventListener("click", startQuiz);
+$("btn-back").addEventListener("click", goBack);
+$("btn-share").addEventListener("click", shareResult);
+$("btn-challenge").addEventListener("click", challengeFriend);
+$("btn-copy").addEventListener("click", copyResult);
+$("btn-download").addEventListener("click", downloadCard);
+$("btn-again").addEventListener("click", resetQuiz);
+
+// Keyboard shortcut: press 1-4 (or A-D) to pick an answer while on the quiz screen
+document.addEventListener("keydown", (e) => {
+  if (!$("screen-quiz").classList.contains("active")) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  const map = { "1":0,"2":1,"3":2,"4":3,"a":0,"b":1,"c":2,"d":3 };
+  const k = e.key.toLowerCase();
+  if (k in map) selectAnswer(map[k]);
+});
+</script>
+</body>
+</html>
